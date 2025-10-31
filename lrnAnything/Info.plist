@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>api.openai.com</key>
+			<dict>
+				<key>Allows Insecure HTTPLoads</key>
+				<string>No</string>
+				<key>Includes Subdomains</key>
+				<string>Yes</string>
+				<key>Minimum TLS Version</key>
+				<string>TLSv1.2</string>
+				<key>Requires Forward Secrecy</key>
+				<string>Yes</string>
+			</dict>
+		</dict>
+	</dict>
+</dict>
+</plist>

@@ -7,9 +7,24 @@
 
 import SwiftUI
 import SwiftData
+import Foundation
 
 @main
 struct lrnAnythingApp: App {
+    init() {
+        // Force HTTP/2/1.1 by disabling HTTP/3 (QUIC) at runtime for Simulator stability
+        setenv("CFNETWORK_HTTP3_ENABLE", "0", 1)
+    }
+    @StateObject private var appState = AppState()
+    @StateObject private var appEnvironment: AppEnvironment = {
+        // WARNING: For prototype use only. Do not ship keys in apps.
+        let article = OpenAIArticleService(apiKey: "OPENAI_KEY_REMOVED")
+        let tts = OpenAITTSService(apiKey: "OPENAI_KEY_REMOVED")
+        let storage = AudioStorage()
+        let manager = AudioManager()
+        let recent = RecentArticlesStore()
+        return AppEnvironment(articleService: article, audioService: tts, audioStorage: storage, audioManager: manager, recentStore: recent)
+    }()
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -25,7 +40,16 @@ struct lrnAnythingApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Group {
+                if appState.isSignedIn {
+                    ContentView(articleService: appEnvironment.articleService)
+                } else {
+                    SignIn()
+                }
+            }
+            .environmentObject(appState)
+            .environmentObject(appEnvironment)
+            .environmentObject(appEnvironment.recentStore)
         }
         .modelContainer(sharedModelContainer)
     }
