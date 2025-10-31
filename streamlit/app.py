@@ -54,7 +54,8 @@ if generate and topic and client:
             st.error(f"Error: {e}")
             st.stop()
 
-    st.success(f"Done in {result.get('ms', 0)} ms via {result.get('source')} API") if show_raw else None
+    if show_raw:
+        st.success(f"Done in {result.get('ms', 0)} ms via {result.get('source')} API")
 
     st.subheader(result["title"])  # title
     st.caption(result["summary"])  # summary
