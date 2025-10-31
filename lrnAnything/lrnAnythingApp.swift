@@ -17,9 +17,9 @@ struct lrnAnythingApp: App {
     }
     @StateObject private var appState = AppState()
     @StateObject private var appEnvironment: AppEnvironment = {
-        // WARNING: For prototype use only. Do not ship keys in apps.
-        let article = OpenAIArticleService(apiKey: "OPENAI_KEY_REMOVED")
-        let tts = OpenAITTSService(apiKey: "OPENAI_KEY_REMOVED")
+        // for prototype use only
+        let article = OpenAIArticleService(apiKey: "")
+        let tts = OpenAITTSService(apiKey: "")
         let storage = AudioStorage()
         let manager = AudioManager()
         let recent = RecentArticlesStore()
